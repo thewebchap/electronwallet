@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>DID creation</title>
+  <link rel="stylesheet" href="./styledid.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<script>window.$ = window.jQuery = require('jquery');</script>
+<script class="jsbin" src="js/jquery.min.js"></script>
+<div id="loader_div" class="loader_div"></div>
+<div class="hero">
+  <div class="cube"></div>
+  <div class="cube"></div>
+  <div class="cube"></div>
+  <div class="cube"></div>
+  <div class="cube"></div>
+  <div class="cube"></div>
+  <a href="#">
+    <img src="./rubixicon.png" alt="Rubix logo"  width="130" height="130" style="display: block;
+  margin-left: auto;
+  margin-right: auto;" >
+  </a>
+<h2 style="color:white">&nbsp;&nbsp; Welcome to Rubix &nbsp! &nbsp; Create your DID to get started. &nbsp;</h2>
+
+<form id="didcreateform" name="didcreateform" action="/user/edit" method="post" enctype="multipart/form-data">
+
+
+<div class="file-upload">
+  <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Add Image</button>
+
+  <div class="image-upload-wrap">
+    <input class="file-upload-input" id="image" name="image" type='file' onchange="readURL(this);" accept="image/*" />
+    <div class="drag-text">
+      <h3>Drag and drop a file or select add Image (256*256 PNG)</h3>
+    </div>
+  </div>
+  <div class="file-upload-content">
+    <img class="file-upload-image" src="#" id="didseedimage" alt="your image" />
+    <div class="image-title-wrap">
+      <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>
+    </div>
+  </div>
+</div>
+
+<div class="text-input">
+  <input type="text" id="data" name="data" placeholder="Type your Seedphrase here!">
+  <label for="input1">Seed</label>
+</div>
+</form>
+<button class="didgenerate" style=" border: none;
+background-color: #4CAF50;
+color: white;
+padding: 15px 32px;
+text-align: center;
+text-decoration: none;
+display: inline-block;
+font-size: 16px;
+margin: 10px 2px;
+cursor: pointer;
+width: 100%;" onclick="createdid()">Generate DID</button>
+
+</div>
+
+<!-- partial -->
+  <script  src="./scriptdid.js"></script>
+
+<script>
+
+function createdid() {
+  setTimeout(function(){
+  },10000);
+  jQuery(".loader_div").show();
+let myForm = document.getElementById('didcreateform');
+let formData = new FormData(myForm);
+  console.log(formData);
+
+  var xhsetup = new XMLHttpRequest();
+  xhsetup.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      jQuery(".loader_div").hide();
+      alert(xhsetup.responseText);
+      document.getElementById("didcreateform").reset();
+      window.location.href="dash.html";
+    }
+  };
+    xhsetup.open("POST", "http://localhost:1898/create", true);
+    xhsetup.send(formData);
+
+}
+
+
+</script>
+
+
+</div>
+</body>
+</html>
